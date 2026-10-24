@@ -1,0 +1,16 @@
+{
+  "name": "Pura Carne · Anatomía Patológica",
+  "short_name": "Pura Carne",
+  "description": "Recepción, laboratorio, láminas, informes y calidad del servicio de anatomía patológica.",
+  "lang": "es-AR",
+  "start_url": "./#/recepcion",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F4F1FB",
+  "theme_color": "#1A1036",
+  "icons": [
+    { "src": "img/logo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "img/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "img/icono-180.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

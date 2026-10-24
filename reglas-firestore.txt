@@ -1,0 +1,38 @@
+REGLAS DE FIRESTORE PARA PURA CARNE
+===================================
+
+Dónde se pegan: Firebase › Compilación › Firestore Database › Reglas › borrar todo › pegar › Publicar.
+
+Qué hacen:
+- Nadie que no haya iniciado sesión puede leer ni escribir nada.
+- Solo pueden entrar los usuarios dados de alta en el servicio
+  (documento servicios/principal/usuarios/<UID del usuario>, con el campo rol).
+- Cada ingreso queda anotado en servicios/principal/accesos y ese registro no se puede borrar ni cambiar.
+
+------------------------------ PEGAR DESDE ACÁ ------------------------------
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /servicios/{srv} {
+      function miembro() {
+        return request.auth != null &&
+          exists(/databases/$(database)/documents/servicios/$(srv)/usuarios/$(request.auth.uid));
+      }
+      match /usuarios/{uid} {
+        allow read: if request.auth != null && request.auth.uid == uid;
+        allow write: if false;
+      }
+      match /estado/{doc} {
+        allow read, write: if miembro();
+      }
+      match /accesos/{id} {
+        allow create: if miembro() && request.resource.data.uid == request.auth.uid;
+        allow read, update, delete: if false;
+      }
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+------------------------------ HASTA ACÁ ------------------------------
